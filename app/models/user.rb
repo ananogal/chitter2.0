@@ -14,6 +14,7 @@ class User
 
 	validates_presence_of :email, :message => "The field email is mandatory"
 	validates_uniqueness_of :email, :message => "This email is already taken"
+	validates_presence_of :username, :message => "The field username is mandatory"
   	
   	def password=(password)
 		@password = password

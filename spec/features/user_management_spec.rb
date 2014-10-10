@@ -21,6 +21,12 @@ feature "User Signs in" do
 		expect(page).to have_content("The field email is mandatory")
 	end
 
+	scenario "As a user I must enter an username" do
+		visit '/'
+		expect{sign_in("test@test.com", "Test", "")}.to change(User, :count).by(0)
+		expect(page).to have_content("The field username is mandatory")
+	end
+
 	def sign_in(email="test@test.com", name="Test", username="test_test", 
 					password = "test", password_confirmation="test")
 
