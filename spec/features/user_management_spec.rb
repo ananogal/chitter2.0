@@ -11,30 +11,30 @@ feature "User Signs up" do
 		expect(User.first.email).to eq("test@test.com")
 	end
 
-	scenario "As a user I must enter an email" do
+	scenario "without an email" do
 		expect{sign_up("")}.to change(User, :count).by(0)
 		expect(page).to have_content("The field email is mandatory")
 	end
 
-	scenario "As a user I must enter a unique email" do
+	scenario "with a non unique email" do
 		sign_out
 		expect{sign_up("test@test.com")}.to change(User, :count).by(0)
 		expect(page).to have_content("This email is already taken")
 	end
 
-	scenario "As a user I must enter an username" do
+	scenario "without an username" do
 		visit '/'
 		expect{sign_up("test@test.com", "Test", "")}.to change(User, :count).by(0)
 		expect(page).to have_content("The field username is mandatory")
 	end
 
-	scenario "As a user I must enter a unique username" do
+	scenario "with a non unique username" do
 		sign_out
 		expect{sign_up("test2@test.com", "Test2", "test_test")}.to change(User, :count).by(0)
 		expect(page).to have_content("This username is already taken")
 	end
 
-	scenario "As a user I must enter a name" do
+	scenario "without a name" do
 		visit '/'
 		expect{sign_up("test@test.com", "")}.to change(User, :count).by(0)
 		expect(page).to have_content("The field name is mandatory")
@@ -49,7 +49,7 @@ end
 
 feature "User sign out" do
 	
-	scenario "As a user I want to logout" do
+	scenario "while being signed in" do
 		sign_out
 		expect(page).to have_content("Good bye!")
 	end
@@ -90,10 +90,38 @@ feature "User forgets password" do
 	end
 
 	scenario "and enters a correct email" do
-		visit '/users/forgotten'
-		fill_in :email, :with =>"test@test.com"
-		click_button 'Reset'
+		send_email("test@test.com")
 		expect(page).to have_content("We've just send you an email confirmation.")
+	end
+
+	scenario "and enter a incorrect email" do
+		send_email("test11111@test.com")
+		expect(page).to have_content("The email you enter is not correct.")
+	end
+
+
+	def send_email(email)
+		visit '/users/forgotten'
+		fill_in :email, :with =>email
+		click_button 'Reset'
+	end
+end
+
+feature "User foloows the email link" do
+	
+	before(:each) do
+		User.create(:email => "test@test.com",
+					:name =>"Test",
+					:username => "test",
+					:password => "test",
+					:password_confirmation => "test",
+					:password_token =>"11112222333444555667778899",
+					:password_token_timestamp => Time.now)
+	end
+
+	scenario "and has the correct token" do
+		visit '/users/reset_password/:token'
+		expect(page).to have_content("Reset Password")
 	end
 end
 

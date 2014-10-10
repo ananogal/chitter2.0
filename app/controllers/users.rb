@@ -24,7 +24,6 @@ get '/users/forgotten' do
 end
 
 post '/users/forgotten' do
-	puts "params[:email] = #{params[:email]}"
 	@user = User.first(:email => params[:email])
 	if @user
 		@user.password_token = (1..64).map{('A'..'Z').to_a.sample}.join
@@ -37,3 +36,19 @@ post '/users/forgotten' do
 	end
 	erb :"users/forgotten"
 end
+
+get '/users/reset_password/:token' do
+	@token = params[:token]
+	@user = User.first(:password_token => @token)
+	@token = @user ? @user.password_token : ""  
+	erb :"users/reset_password"
+end
+
+
+
+
+
+
+
+
+
