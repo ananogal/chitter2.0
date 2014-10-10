@@ -107,7 +107,7 @@ feature "User forgets password" do
 	end
 end
 
-feature "User foloows the email link" do
+feature "User follows the email link" do
 	
 	before(:each) do
 		User.create(:email => "test@test.com",
@@ -120,9 +120,28 @@ feature "User foloows the email link" do
 	end
 
 	scenario "and has the correct token" do
-		visit '/users/reset_password/:token'
+		visit '/users/reset_password/11112222333444555667778899'
 		expect(page).to have_content("Reset Password")
 	end
+
+	scenario "and doesnt have a correct token" do
+		visit '/users/reset_password/11111111111'
+		expect(page).to have_content("This token is not valid.")
+		expect(page).not_to have_content("Reset Password")
+	end
+
+	scenario "and has a token older than 1 hour" do
+		User.create(:email => "test2@test.com",
+					:name =>"Test",
+					:username => "test2",
+					:password => "test",
+					:password_confirmation => "test",
+					:password_token =>"9999888877766655544433322211",
+					:password_token_timestamp => Time.now - 60*60*2)
+		visit '/users/reset_password/9999888877766655544433322211'
+		expect(page).to have_content("This token is not valid anymore.")
+		expect(page).not_to have_content("Reset Password")
+	end 
 end
 
 

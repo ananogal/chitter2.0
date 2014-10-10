@@ -40,6 +40,11 @@ end
 get '/users/reset_password/:token' do
 	@token = params[:token]
 	@user = User.first(:password_token => @token)
+	if !@user
+		flash.now[:errors] = ["This token is not valid."]
+	elsif @user.password_token_timestamp + 60*60 < Time.now
+		flash.now[:errors] = ["This token is not valid anymore."]
+	end
 	@token = @user ? @user.password_token : ""  
 	erb :"users/reset_password"
 end
