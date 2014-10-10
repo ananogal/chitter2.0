@@ -13,6 +13,7 @@ class User
 	property :password_digest, Text
 
 	validates_presence_of :email, :message => "The field email is mandatory"
+	validates_uniqueness_of :email, :message => "This email is already taken"
   	
   	def password=(password)
 		@password = password

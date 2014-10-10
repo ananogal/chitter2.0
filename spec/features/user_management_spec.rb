@@ -11,7 +11,13 @@ feature "User Signs in" do
 
 	scenario "As a user I must enter an email" do
 		visit '/'
-		expect{sign_in("" )}.to change(User, :count).by(0)
+		expect{sign_in("")}.to change(User, :count).by(0)
+		expect(page).to have_content("The field email is mandatory")
+	end
+
+	scenario "As a user I must enter a unique email" do
+		visit '/'
+		expect{sign_in("")}.to change(User, :count).by(0)
 		expect(page).to have_content("The field email is mandatory")
 	end
 
