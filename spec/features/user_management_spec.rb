@@ -151,6 +151,15 @@ feature "User follows the email link" do
 		click_button("Reset")
 		expect(page).to have_content("Welcome, Test")
 	end
+
+	scenario "and enters a password that doesnt match" do
+		visit '/users/reset_password/WDJLPQWJVTIKYERBECGBJNSSZAXZXNMZEPWFDBSHPNDWBFHPRBBQGORKQTYYPTFU'
+		expect(page).to have_content("Reset Password")
+		fill_in :password, :with => 'newpw'
+		fill_in :password_confirmation, :with => 'oldpw'
+		click_button("Reset")
+		expect(page).to have_content("Password does not match the confirmation")
+	end
 end
 
 
