@@ -1,6 +1,8 @@
 require 'spec_helper'
 require_relative 'helpers/sessions'
 
+include SessionHelpers
+
 feature "User Signs up" do
 
 	scenario "correctly" do
@@ -74,6 +76,24 @@ feature "User signs in" do
 		expect(page).not_to have_content("Welcome, Test")
 		sign_in("test@test.com", "something")
 		expect(page).to have_content("The email or password is incorrect.")
+	end
+end
+
+feature "User forgets password" do
+
+	before(:each) do
+		User.create(:email => "test@test.com",
+					:name =>"Test",
+					:username => "test",
+					:password => "test",
+					:password_confirmation => "test")
+	end
+
+	scenario "and enters a correct email" do
+		visit '/users/forgotten'
+		fill_in :email, :with =>"test@test.com"
+		click_button 'Reset'
+		expect(page).to have_content("We've just send you an email confirmation.")
 	end
 end
 

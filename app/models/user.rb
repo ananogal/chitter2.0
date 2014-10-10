@@ -11,6 +11,8 @@ class User
 	property :name, String
 	property :username, String
 	property :password_digest, Text
+	property :password_token, Text
+  	property :password_token_timestamp, Time
 
 	validates_presence_of :email, :message => "The field email is mandatory"
 	validates_uniqueness_of :email, :message => "This email is already taken"
