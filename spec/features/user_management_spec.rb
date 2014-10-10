@@ -66,6 +66,14 @@ feature "User signs in" do
 		visit '/'
 		expect(page).not_to have_content("Welcome, Test")
 		sign_in("test@test.com", "test")
+		expect(page).to have_content("Welcome, Test")
+	end
+
+	scenario "with incorrect credentials" do
+		visit '/'
+		expect(page).not_to have_content("Welcome, Test")
+		sign_in("test@test.com", "something")
+		expect(page).to have_content("The email or password is incorrect.")
 	end
 end
 

@@ -1,7 +1,21 @@
 
 get '/sessions/new'do
-	erb :new
+	erb :"sessions/new"
 end 
+
+post '/sessions' do
+	puts "name= #{params[:email]}"
+	puts "password = #{params[:password]}"
+	@user = User.authenticate(params[:email], params[:password])
+	if @user
+		session[:user_id] = @user.id
+		redirect to '/'
+	else
+		flash[:errors] = ["The email or password is incorrect."]
+		erb:"sessions/new"
+	end
+end
+
 
 delete '/sessions' do
   flash[:notice] = "Good bye!"
