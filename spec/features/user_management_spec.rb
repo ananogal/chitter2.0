@@ -13,11 +13,6 @@ feature "User Signs in" do
 		expect(page).to have_content("The field email is mandatory")
 	end
 
-	scenario "As a user I want to logout" do
-		sign_out
-		expect(page).to have_content("Good bye!")
-	end
-
 	scenario "As a user I must enter a unique email" do
 		sign_out
 		expect{sign_in("test@test.com")}.to change(User, :count).by(0)
@@ -57,5 +52,12 @@ feature "User Signs in" do
 	def sign_out 
 		sign_in
 		click_button('Sign out')
+	end
+end
+
+feature "User sign out" do
+	scenario "As a user I want to logout" do
+		sign_out
+		expect(page).to have_content("Good bye!")
 	end
 end
