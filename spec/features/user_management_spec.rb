@@ -36,6 +36,12 @@ feature "User Signs in" do
 		expect(page).to have_content("This username is already taken")
 	end
 
+	scenario "As a user I must enter a name" do
+		visit '/'
+		expect{sign_in("test@test.com", "")}.to change(User, :count).by(0)
+		expect(page).to have_content("The field name is mandatory")
+	end
+
 	def sign_in(email="test@test.com", name="Test", username="test_test", 
 					password = "test", password_confirmation="test")
 		visit '/'
