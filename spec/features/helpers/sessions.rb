@@ -1,4 +1,4 @@
-def sign_in(email="test@test.com", name="Test", username="test_test", 
+def sign_up(email="test@test.com", name="Test", username="test_test", 
 				password = "test", password_confirmation="test")
 	visit '/'
 	click_link("Sign up")
@@ -11,6 +11,13 @@ def sign_in(email="test@test.com", name="Test", username="test_test",
 end
 
 def sign_out 
-	sign_in
+	sign_up
 	click_button('Sign out')
+end
+
+def sign_in(email, password)
+    visit '/sessions/new'
+    fill_in :email, :with => email
+    fill_in :password, :with => password
+    click_button 'Sign in'
 end
