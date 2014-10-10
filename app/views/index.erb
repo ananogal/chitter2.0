@@ -1,0 +1,9 @@
+<h1>Chitter</h1>
+
+<%if @user%>
+	<h3>Welcome, <%= user.name%></h3>
+<%end%>
+
+<form action="users/new" method="post">
+	<input type="submit" value="Sign in"/>
+</form>
