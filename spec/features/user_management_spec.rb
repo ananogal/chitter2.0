@@ -3,7 +3,7 @@ require_relative 'helpers/sessions'
 
 feature "User Signs in" do
 
-	scenario "As a user I want to sign up" do
+	scenario "correctly" do
 		sign_in
 		expect(page).to have_content('Welcome, Test')
 		expect(User.first.email).to eq("test@test.com")
@@ -36,6 +36,12 @@ feature "User Signs in" do
 		visit '/'
 		expect{sign_in("test@test.com", "")}.to change(User, :count).by(0)
 		expect(page).to have_content("The field name is mandatory")
+	end
+
+	scenario "with a password that doesnt match" do 
+		visit '/'
+		expect{sign_in("test@test.com", "Test", "test_test", "12345", "67890")}.to change(User, :count).by(0)
+		expect(page).to have_content("Password does not match the confirmation")
 	end
 end
 
