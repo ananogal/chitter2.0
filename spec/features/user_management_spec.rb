@@ -142,6 +142,15 @@ feature "User follows the email link" do
 		expect(page).to have_content("This token is not valid anymore.")
 		expect(page).not_to have_content("Reset Password")
 	end 
+
+	scenario "and enters password in the 2 fields correctly" do
+		visit '/users/reset_password/11112222333444555667778899'
+		expect(page).to have_content("Reset Password")
+		fill_in :password, :with => 'newpw'
+		fill_in :password_confirmation, :with => 'newpw'
+		click_button("Reset")
+		expect(page).to have_content("Welcome, Test")
+	end
 end
 
 
