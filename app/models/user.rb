@@ -11,6 +11,8 @@ class User
 	property :name, String
 	property :username, String
 	property :password_digest, Text
+
+	validates_presence_of :email, :message => "The field email is mandatory"
   	
   	def password=(password)
 		@password = password

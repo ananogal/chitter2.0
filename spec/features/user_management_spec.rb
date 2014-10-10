@@ -2,16 +2,28 @@ require 'spec_helper'
 
 feature "User Signs in" do
 
-	scenario "As a user I want to sign in" do
+	scenario "As a user I want to sign up" do
 		visit '/'
-		click_button("Sign in")
-		fill_in :name,  :with => "name"
-		fill_in :username,  :with => "username"
-		fill_in :email,  :with => "email"
-		fill_in :password,  :with =>"password"
-		fill_in :password_confirmation, :with => "password"
-		click_button("Sign in")
-		expect(page).to have_content('Welcome, name')
-		expect(User.first.email).to eq("email")
+		sign_in
+		expect(page).to have_content('Welcome, Test')
+		expect(User.first.email).to eq("test@test.com")
+	end
+
+	scenario "As a user I must enter an email" do
+		visit '/'
+		expect{sign_in("" )}.to change(User, :count).by(0)
+		expect(page).to have_content("The field email is mandatory")
+	end
+
+	def sign_in(email="test@test.com", name="Test", username="test_test", 
+					password = "test", password_confirmation="test")
+
+		click_link("Sign up")
+		fill_in :email,  :with => email
+		fill_in :name,  :with => name
+		fill_in :username,  :with => username
+		fill_in :password,  :with => password
+		fill_in :password_confirmation, :with => password_confirmation
+		click_button("Sign up")
 	end
 end
