@@ -4,14 +4,12 @@
 
 body {
   font-family: Helvetica, Arial, Sans-serif;
-  background-image: url(/images/crossword.png)
-  color:#a1d5d6;
-  
+  background-image: url(/images/crossword.png)  
 }
 
 a {
 	text-decoration: none;
-	color: #de5743
+	color: #0ba2d9
 }
 
 
@@ -20,7 +18,7 @@ a {
   width: 110px;
   cursor: pointer;
   font-size: 16px;
-  background-color: #de5743;
+  background-color: #0ba2d9;
   border: 2px solid white;
   color: white; /*text colour*/
   padding: 5px 10px;
@@ -32,15 +30,15 @@ a {
 }
 
 a.button.highlighted {
-  background-color: #de5743;
+  background-color: #0ba2d9;
 }
 
 header {  
   height: 40px;
-  background-color: #ebebe8;
+  background-color: #0c9bcf;
   color: white;
-  display: flex; /* http://learnlayout.com/flexbox.html */
-  padding: 0 20px;
+  display: flex;
+  padding: 0 20px 0 20px;
   margin: 0 300px;
 }
 
@@ -52,11 +50,11 @@ header {
   header #logo {    
     display: flex;  
     margin-right: 20px;    
-    font-size: 2em;
+    font-size: 2.1em;
     font-weight: bolder;
   }
   header a {
-    color: #de5743;
+    color: #fff569;
   }
 
   header #user-peeps {
@@ -74,7 +72,7 @@ header #user-peeps > *{
  }
 
 #container {
-	background-color: #bfe0bf;
+	background-color: #FFF;
 	margin:40px;
 	box-shadow: 0 0 5px rgba(0,0,0,0.4);
 	padding: 10px;
@@ -82,11 +80,18 @@ header #user-peeps > *{
 }
 
 #container h3{
+  font-size:1.3em;
+  font-weight: bold;
+  font-style: italic;
+  color: #2d3033
+}
+
+#container ul{
 
 }
 
 .peep {
-  	background-color: #EEE;
+  	background-color: #fff;
   	box-shadow: 0 0 5px rgba(0,0,0,0.4);
   	margin:10px inherit;
   	padding: 15px 10px;
@@ -94,22 +99,28 @@ header #user-peeps > *{
 
 .peep .message {
   	letter-spacing: 1px;
+    font-size: 1.0em;
+    color:#0c9bcf;
+    font-weight: bold;
  }
 
 .peep .author {
   	margin: 10px inherit;
+    font-size: 0.8em;
+    color: #2d3033
 }
 
 .peep .date {
   	float: right;
-  	font-size: 12px;
+  	font-size: 0.7em;
+    color: #6a6c6e
 }
 
 #notice {
   text-align: center;
   margin: 5px;
   padding: 5px;
-  background-color: rgba(67,183,120,0.75);
+  background-color: rgba(222,87,67,0.75);
   border-radius: 4px;
   box-shadow: 0 0 3px rgba(0,0,0,0.4);
   color: white;
@@ -119,11 +130,12 @@ h1{
 }
 
 form{
-	text-align: left;
+	/*text-align: left;*/
 }
 
 form p{
 	margin: 10px 0;
+  text-align: center;
 }
 
 form input[type="text"], form input[type="password"]{
@@ -146,6 +158,6 @@ form input[type="text"], form input[type="password"]{
 }
 
 .flash.error {
-   background-color: rgba(169,29,42,0.75); 
+   background-color: rgba(222,87,67,1); 
 }
 
