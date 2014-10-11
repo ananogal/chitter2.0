@@ -3,7 +3,7 @@ get '/peep/new' do
 end
 
 post '/peep/new' do
-	@peep = Peep.create(:message =>params[:message], :message_timestamp => DateTime.now, :user_id => session[:user_id])
+	@peep = Peep.create(:message =>params[:message], :created_at => DateTime.now, :user_id => session[:user_id])
 	if @peep
 		redirect to '/'
 	end

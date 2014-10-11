@@ -53,15 +53,21 @@ feature "User browses the list of peeps" do
 					:password => "ana",
 					:password_confirmation => "ana")
 
-			create_peep("test@test.com", "test", "My first peep")
-			create_peep("ana@test.com", "ana", "My first peep")
-			create_peep("test@test.com", "test", "My second peep")
-			create_peep("ana@test.com", "ana", "My second peep")
+			create_peep("test@test.com", "test", "Test first peep")
+			create_peep("ana@test.com", "ana", "Ana first peep")
+			create_peep("test@test.com", "test", "Test second peep")
+			create_peep("ana@test.com", "ana", "Ana second peep")
 		}
 
 	scenario "when enter the homepage" do
 		visit '/'
 		expect(page).to have_content("What's going on...")
+	end
+
+	scenario "user sees peeps order chronologically" do
+		sleep(5)
+		create_peep("ana@test.com", "ana", "Ana\'s last peep")
+		expect(page.body.index("Ana\'s last peep")).to be < (page.body.index("Ana second peep"))
 	end
 
 end
