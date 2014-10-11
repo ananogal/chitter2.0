@@ -7,21 +7,25 @@ class User
 	attr_accessor :password_confirmation
 
 	property :id, Serial
-	property :email, String,  :required => true, :unique => true
-	property :name, String,  :required => true
-	property :username, String,  :required => true, :unique => true
+	property :email, String,  :required => true, :unique => true, :format   => :email_address, 
+			:messages => {
+			      :presence  => "The email is mandatory",
+			      :is_unique => "This email is already taken.",
+			      :format    => "Doesn't look like an email address to me ..."
+			    }
+	property :name, String,  :required => true,:message => "The name is mandatory" 
+	property :username, String,  :required => true, :unique => true, :messages => {
+			      :presence  => "The username is mandatory",
+			      :is_unique => "This username is already taken."
+			    }
 	property :password_digest, Text
 	property :password_token, Text
   	property :password_token_timestamp, Time
 
   	has n, :peeps
 
-	validates_presence_of :email, :message => "The field email is mandatory"
-	validates_uniqueness_of :email, :message => "This email is already taken"
-	validates_presence_of :username, :message => "The field username is mandatory"
-	validates_uniqueness_of :username, :message => "This username is already taken"
-	validates_presence_of :name, :message => "The field name is mandatory"
   	validates_confirmation_of :password
+  	validates_presence_of :password, :message => "The password is mandatory"
 
   	def password=(password)
 		@password = password

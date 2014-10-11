@@ -1,5 +1,6 @@
 
 get '/sessions/new'do
+	session[:current_page] = "sign_in"
 	erb :"sessions/new"
 end 
 

@@ -13,7 +13,7 @@ feature "User Signs up" do
 
 	scenario "without an email" do
 		expect{sign_up("")}.to change(User, :count).by(0)
-		expect(page).to have_content("The field email is mandatory")
+		expect(page).to have_content("The email is mandatory")
 	end
 
 	scenario "with a non unique email" do
@@ -25,7 +25,7 @@ feature "User Signs up" do
 	scenario "without an username" do
 		visit '/'
 		expect{sign_up("test@test.com", "Test", "")}.to change(User, :count).by(0)
-		expect(page).to have_content("The field username is mandatory")
+		expect(page).to have_content("The username is mandatory")
 	end
 
 	scenario "with a non unique username" do
@@ -37,13 +37,18 @@ feature "User Signs up" do
 	scenario "without a name" do
 		visit '/'
 		expect{sign_up("test@test.com", "")}.to change(User, :count).by(0)
-		expect(page).to have_content("The field name is mandatory")
+		expect(page).to have_content("The name is mandatory")
 	end
 
 	scenario "with a password that doesnt match" do 
 		visit '/'
 		expect{sign_up("test@test.com", "Test", "test_test", "12345", "67890")}.to change(User, :count).by(0)
 		expect(page).to have_content("Password does not match the confirmation")
+	end
+	scenario "without a password" do
+		visit '/'
+		expect{sign_up("test@test.com", "Test", "test_test", "", "")}.to change(User, :count).by(0)
+		expect(page).to have_content("The password is mandatory")
 	end
 end
 
