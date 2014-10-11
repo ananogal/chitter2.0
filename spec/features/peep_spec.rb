@@ -29,5 +29,8 @@ feature "To post a peep" do
 		click_link 'New peep'
 		fill_in :message, :with =>"My first peep"
 		click_button 'Peep'
+		expect(Peep.first.message).to eq("My first peep")
 	end
+
+
 end
