@@ -68,7 +68,8 @@ header #user-peeps > *{
   }
 
  header #user-peeps #welcome-message{
- 	font-size: 14px;
+ 	font-size: 1em;
+  padding-right: 10px;
  }
 
 #container {
@@ -142,6 +143,9 @@ form input[type="text"], form input[type="password"]{
 	border:1px solid black;
 	font-size: 16px;
 	width: 400px;
+}
+.link_button{
+  font-size: 0.8em;
 }
 
 .flash {

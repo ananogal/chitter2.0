@@ -7,13 +7,13 @@
             <span id="welcome-message">
                 Welcome, <%= current_user.name %>  
             </span>
-            <a href='/peep/new' id='sign-in'>New peep</a>
+            <a href='/peep/new' id='sign-in' class='button'>New peep</a>
             <form id="sign-out" method="post" action="/sessions">
             	<input type="hidden" name="_method" value="delete">
             	<input type="submit" class='button' value="Sign out">
           	</form>	
         <% else %>
-        	<a href='/users/new' id='sign-in' class='button'>Sign up</a>  
+        	<a href='/users/new' id='sign-up' class='button'>Sign up</a>  
             <a href='/sessions/new' id='sign-in' class='button'>Sign in</a>       
         <% end %>
     </div>
