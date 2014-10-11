@@ -2,13 +2,14 @@
     <a href="/">Chitter</a>
     <% if current_user %>
         Welcome, <%= current_user.name %>  
+        <a href='/peep/new' id='sign-in'>New peep</a>
         <form id="sign-out" method="post" action="/sessions">
         	<input type="hidden" name="_method" value="delete">
         	<input type="submit" class='button' value="Sign out">
       	</form>	
     <% else %>
     	<a href='/users/new' id='sign-in'>Sign up</a>  
-         <a href='/sessions/new' id='sign-in'>Sign in</a>       
+        <a href='/sessions/new' id='sign-in'>Sign in</a>       
     <% end %>
 </header>
 	
