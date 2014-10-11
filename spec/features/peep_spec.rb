@@ -19,9 +19,15 @@ feature "To post a peep" do
 	end
 
 	scenario "user can access page to peep" do
-		visit '/'
 		sign_in("test@test.com", "test")
 		click_link 'New peep'
 		expect(page).to have_content("Tell us what's on your mind!")
+	end
+
+	scenario "user enters a text" do
+		sign_in("test@test.com", "test")
+		click_link 'New peep'
+		fill_in :message, :with =>"My first peep"
+		click_button 'Peep'
 	end
 end
