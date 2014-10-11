@@ -1,3 +1,13 @@
 <%if @peeps && @peeps.count > 0 %>
 	<h3>What's going on...</h3>
+	<ul >
+		<% @peeps.each do |peep| %>
+			<li>
+				<p><%= peep.message %></p>
+				<%@user = User.first(id=peep.user_id)%>
+				<p>created by:<%="#{@user.name}" %>  <p>
+				<p>at:<%= peep.message_timestamp.strftime("%d/%m/%Y %H:%M")%></p>
+			</li>
+		<% end %>
+	</ul>
 <%end%>

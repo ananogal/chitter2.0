@@ -1,5 +1,9 @@
 require 'spec_helper'
 require_relative 'helpers/sessions'
+require_relative 'helpers/peeps'
+
+include SessionHelpers
+include PeepsHelper
 
 feature "To post a peep" do
 
@@ -25,23 +29,39 @@ feature "To post a peep" do
 	end
 
 	scenario "user enters a text" do
-		create_peep
+		create_peep("test@test.com", "test", "My first peep")
 		expect(Peep.first.message).to eq("My first peep")
 	end
 
 	scenario "user enter peep and goes to homepage" do
-		create_peep
+		create_peep("test@test.com", "test", "My first peep")
 		expect(page).to  have_content("What's going on...")
 	end
+end
 
+feature "User browses the list of peeps" do
+	
+	before(:each) {
+			User.create(:email => "test@test.com",
+					:name =>"Test",
+					:username => "test",
+					:password => "test",
+					:password_confirmation => "test")
+			User.create(:email => "ana@test.com",
+					:name =>"Ana",
+					:username => "ana",
+					:password => "ana",
+					:password_confirmation => "ana")
 
-	def create_peep
-		sign_in("test@test.com", "test")
-		click_link 'New peep'
-		fill_in :message, :with =>"My first peep"
-		click_button 'Peep'
+			create_peep("test@test.com", "test", "My first peep")
+			create_peep("ana@test.com", "ana", "My first peep")
+			create_peep("test@test.com", "test", "My second peep")
+			create_peep("ana@test.com", "ana", "My second peep")
+		}
+
+	scenario "when enter the homepage" do
+		visit '/'
+		expect(page).to have_content("What's going on...")
 	end
-
-
 
 end
