@@ -2,12 +2,7 @@
 	<h3>What's going on...</h3>
 	<ul >
 		<% @peeps.each do |peep| %>
-			<li>
-				<p><%= peep.message %></p>
-				<%@user = User.get(peep.user_id)%>
-				<p>created by:<%=@user.name%> ( <%=@user.username%> )  <p>
-				<p>at:<%= peep.created_at.strftime("%d/%m/%Y %H:%M")%></p>
-			</li>
+			<%= partial :peep, :locals => {:peep => peep} %>
 		<% end %>
 	</ul>
 <%end%>

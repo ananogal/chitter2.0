@@ -1,0 +1,6 @@
+<li class="peep">
+	<p class="message"><%= peep.message %></p>
+	<%@user = User.get(peep.user_id)%>
+	<p class="author">created by:<%=@user.name%> ( <%=@user.username%> )  <p>
+	<p class="date">at:<%= peep.created_at.strftime("%d/%m/%Y %H:%M")%></p>
+</li>

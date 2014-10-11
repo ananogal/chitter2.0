@@ -19,3 +19,4 @@ include Email
 use Rack::Flash, :sweep =>true
 enable :sessions
 set :partial_template_engine, :erb
+set :public_folder, 'public' 
