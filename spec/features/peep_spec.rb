@@ -17,4 +17,11 @@ feature "To post a peep" do
 		sign_in("test@test.com", "test")
 		expect(page).to have_content("New peep")
 	end
+
+	scenario "user can access page to peep" do
+		visit '/'
+		sign_in("test@test.com", "test")
+		click_link 'New peep'
+		expect(page).to have_content("Tell us what's on your mind!")
+	end
 end
