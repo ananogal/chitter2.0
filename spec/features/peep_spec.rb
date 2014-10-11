@@ -25,12 +25,23 @@ feature "To post a peep" do
 	end
 
 	scenario "user enters a text" do
+		create_peep
+		expect(Peep.first.message).to eq("My first peep")
+	end
+
+	scenario "user enter peep and goes to homepage" do
+		create_peep
+		expect(page).to  have_content("What's going on...")
+	end
+
+
+	def create_peep
 		sign_in("test@test.com", "test")
 		click_link 'New peep'
 		fill_in :message, :with =>"My first peep"
 		click_button 'Peep'
-		expect(Peep.first.message).to eq("My first peep")
 	end
+
 
 
 end
