@@ -6,4 +6,10 @@ class Peep
 	property :created_at, DateTime
 
 	belongs_to :user
+
+	has n, :replies, :child_key => [ :answer_id ]
+ 	has n, :comments, self, :through => :replies, :via => :target
+
+
 end
+

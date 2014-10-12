@@ -65,9 +65,47 @@ feature "User browses the list of peeps" do
 	end
 
 	scenario "user sees peeps order chronologically" do
-		sleep(5)
+		sleep(2)
 		create_peep("ana@test.com", "ana", "Ana\'s last peep")
 		expect(page.body.index("Ana\'s last peep")).to be < (page.body.index("Ana second peep"))
 	end
 
 end
+
+feature "To reply to a peep" do
+
+	before(:each) {
+		User.create(:email => "test@test.com",
+				:name =>"Test",
+				:username => "test",
+				:password => "test",
+				:password_confirmation => "test")
+		User.create(:email => "ana@test.com",
+				:name =>"Ana",
+				:username => "ana",
+				:password => "ana",
+				:password_confirmation => "ana")
+
+		create_peep("test@test.com", "test", "Test first peep")
+		create_peep("ana@test.com", "ana", "Ana first peep")
+		create_peep("test@test.com", "test", "Test second peep")
+		create_peep("ana@test.com", "ana", "Ana second peep")
+	}
+
+	scenario "user must be sign in" do
+		visit '/'
+		expect(page).to have_content("Reply")
+	end
+
+	scenario "user enters a text" do
+		visit '/'
+		first(:button, 'Reply').click
+		fill_in :message, :with => "Reply to another user"
+		click_button 'Peep'
+		expect(Reply.count).to eq(1)
+	end
+end
+
+
+
+
