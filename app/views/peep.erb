@@ -2,16 +2,21 @@
 	<p class="message"><%= peep.message %></p>
 	<%@user = User.get(peep.user_id)%>
 	<p class="author">created by:<%=@user.name%> ( <%=@user.username%> )  </p>
-	<%if current_user && @user.id != current_user.id%>
-		<form action="peep/new" method="get">
-			<input type="hidden" name ="peep_id" value="<%=peep.id%>"/>
-			<p><input type="submit" value="Reply" class="button"/></p>
-		</form>
-	<%end%>
-	<p class="date">at:<%= peep.created_at.strftime("%d/%m/%Y %H:%M")%></p>
-	<%	if peep.replies.count > 0 %>
-		<ul>
-			
+	<div class="button_reply">
+		<%if current_user && @user.id != current_user.id%>
+			<form action="peep/new" method="get">
+				<input type="hidden" name ="peep_id" value="<%=peep.id%>"/>
+				<p><input type="submit" value="Reply" class="button"/></p>
+			</form>
+		<%end%>
+		<p class="date">at:<%= peep.created_at.strftime("%d/%m/%Y %H:%M")%></p>
+	</div>
+	<%@replies = Reply.all(:target_id => peep.id, :order => [:answer_id.desc])%>
+	<%	if @replies.count > 0 %>
+		<ul id="replies">
+			<% @replies.each do |reply| %>
+				<%= partial :reply, :locals => {:reply => reply} %>
+			<% end %>
 		</ul>
 	<%end%>
 </li>

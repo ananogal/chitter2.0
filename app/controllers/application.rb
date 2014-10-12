@@ -1,4 +1,7 @@
 get '/' do
-	@peeps = Peep.all(:order => [:created_at.desc])
+	@replies = Reply.all()
+	@ids = []
+	@replies.each {|replay| @ids << replay.answer_id }
+	@peeps = Peep.all(:id.not => @ids ,:order => [:created_at.desc])
 	erb :index
 end

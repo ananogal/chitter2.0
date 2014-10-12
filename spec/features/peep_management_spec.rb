@@ -87,22 +87,30 @@ feature "To reply to a peep" do
 				:password_confirmation => "ana")
 
 		create_peep("test@test.com", "test", "Test first peep")
+		sleep(1)
 		create_peep("ana@test.com", "ana", "Ana first peep")
+		sleep(1)
 		create_peep("test@test.com", "test", "Test second peep")
+		sleep(1)
 		create_peep("ana@test.com", "ana", "Ana second peep")
 	}
 
-	scenario "user must be sign in" do
-		visit '/'
-		expect(page).to have_content("Reply")
+	scenario "user enters a text" do
+		reply
+		expect(Reply.count).to eq(1)
 	end
 
-	scenario "user enters a text" do
+	scenario "reply should be visible under peep" do
+		reply
+		save_and_open_page
+		expect(page.body.index("Reply to another user")).to be > (page.body.index("Test second peep"))
+	end
+
+	def reply
 		visit '/'
 		first(:button, 'Reply').click
 		fill_in :message, :with => "Reply to another user"
 		click_button 'Peep'
-		expect(Reply.count).to eq(1)
 	end
 end
 

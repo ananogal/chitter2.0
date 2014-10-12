@@ -70,6 +70,7 @@ header #user-peeps > *{
  header #user-peeps #welcome-message{
  	font-size: 1em;
   padding-right: 10px;
+  color:#2d3033;
  }
 
 #container {
@@ -112,9 +113,44 @@ header #user-peeps > *{
 }
 
 .peep .date {
-  	float: right;
   	font-size: 0.7em;
     color: #6a6c6e
+}
+
+.peep .button_reply{
+  float: right;
+  margin-top: -60px;
+  text-align: center;
+}
+
+#replies{
+  margin-top: 30px;
+}
+
+.reply{
+    background-color: #6a6c6e;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    margin: 10px 20px 10px 20px;
+    padding: 15px 10px;
+}
+
+.reply .message {
+    letter-spacing: 1px;
+    font-size: 1.0em;
+    color:#fff569;
+    font-weight: bold;
+ }
+
+.reply .author {
+    margin: 10px inherit;
+    font-size: 0.8em;
+    color: #FFFFFF
+}
+
+.reply .date {
+    float: right;
+    font-size: 0.7em;
+    color: #FFFFFF
 }
 
 #notice {

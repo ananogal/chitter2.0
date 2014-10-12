@@ -9,7 +9,5 @@ class Peep
 
 	has n, :replies, :child_key => [ :answer_id ]
  	has n, :comments, self, :through => :replies, :via => :target
-
-
 end
 
