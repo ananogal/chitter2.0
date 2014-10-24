@@ -57,17 +57,17 @@ header {
     color: #fff569;
   }
 
-  header #user-peeps {
+  header #user-buttons {
     flex: 1; /* http://learnlayout.com/flexbox.html */
     -webkit-flex: 1;
     text-align: right;  
   }
 
-header #user-peeps > *{
+header #user-buttons > *{
 	display: inline-block;
   }
 
- header #user-peeps #welcome-message{
+ header #user-buttons #welcome-message{
  	font-size: 1em;
   padding-right: 10px;
   color:#2d3033;
