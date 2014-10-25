@@ -14,6 +14,9 @@ ChitterView.prototype.updateUserInfo = function(user){
 			var source = $('#template_signed_out').html();
 			var template = Handlebars.compile(source);
 			$('#user-buttons').append(template());
+			$('#sign-in').on('click', function(){
+				
+			});
 		}
 		else
 		{
