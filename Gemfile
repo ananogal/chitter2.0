@@ -8,6 +8,7 @@ gem 'database_cleaner'
 gem 'rack-flash3'
 gem 'sinatra-partial'
 gem 'rest-client'
+gem 'json'
 
 
 group :development, :test do

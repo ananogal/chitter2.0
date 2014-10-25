@@ -35,55 +35,50 @@
 		<p><input type="submit" value="Sign up" class="button"/></p>
 	</section>
 	<section  id="user-peeps">
-		<%if @peeps && @peeps.count > 0 %>
 			<h3>What's going on...</h3>
-			<ul >
-				<% @peeps.each do |peep| %>
-					<li class="peep">
-						<p class="message"><%= peep.message %></p>
-						<%@user = User.get(peep.user_id)%>
-						<p class="author">created by:<%=@user.name%> ( <%=@user.username%> )  </p>
-						<div class="button_reply">
-							<%if current_user && @user.id != current_user.id%>
-								<form action="peep/new" method="get">
-									<input type="hidden" name ="peep_id" value="<%=peep.id%>"/>
-									<p><input type="submit" value="Reply" class="button"/></p>
-								</form>
-							<%end%>
-							<p class="date">at:<%= peep.created_at.strftime("%d/%m/%Y %H:%M")%></p>
-						</div>
-						<%@replies = Reply.all(:target_id => peep.id, :order => [:answer_id.desc])%>
-						<%	if @replies.count > 0 %>
-							<ul id="replies">
-								<% @replies.each do |reply| %>
-									<li class="reply">
-										<% @awnser = Peep.get(reply.answer_id)%>
-										<p class="message"><%= @awnser.message %></p>
-										<%@user = User.get(@awnser.user_id)%>
-										<p class="author">created by:<%=@user.name%> ( <%=@user.username%> )  </p>
-										<p class="date">at:<%= @awnser.created_at.strftime("%d/%m/%Y %H:%M")%></p>
-									</li>
-								<% end %>
-							</ul>
-						<%end%>
-					</li>
-				<% end %>
-			</ul>
-		<%end%>
+				<ul id="ul-peeps" >
+
+				</ul>
 		</section>
   </main>
-  <tempate id="template_signed_in">
+  <template id="template_signed_in">
 		<span id="welcome-message">
-        Welcome, {{.name }}  
+        Welcome, {{name }}  
     </span>
     <a href='#' id='new_peep' class='button'>New peep</a>
     <a href='#' id='sign_out' class='button'>Sign out</a>
-	</tempate>
+	</template>
 	<template id="template_signed_out">
 		<a href='#' id='sign-up' class='button'>Sign up</a>  
     <a href='#' id='sign-in' class='button'>Sign in</a>  
 	</template>
+	<template id="template_list_peeps">
+		<li class="peep">
+			<p class="message">{{message}}</p>
+			<section class="button_reply"></section>
+			<section id="user-info"></section>
+			<section id="peep_replies">
+				<ul id="replies{{id}}">
+			
+				</ul>
+			</section>
+		</li>
+	</template>
+	<template id="template_peep-user-info">
+		<p class="author">created by:{{name}} ( {{username}} )  </p>
+		<p class="date">at:{{#formatDate created_at}} {{/formatDate}}</p>
+	</template>
+	<template id="template_button-reply">
+		<a href="#" class="button">Reply</a>
+	</template>
+	<template id="template_replies">
+		<li class="reply">
+			<p class="message">{{message }}</p>
+			<section id="reply-user-info"></section>
+		</li>
+	</template>
 	<script src="/js/jquery-2.1.1.min.js"></script>
+	<script src="/js/moment.min.js"></script>
 	<script src="/js/handlebars.js"></script>
 	<script src="/js/chitter.js"></script>
 </body>

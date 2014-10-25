@@ -12,6 +12,17 @@ get '/api/' do
 	@return_obj.to_json
 end
 
-get '/api/:replies' do
+get '/api/users/:id' do
+	@user = User.get(params[:id])
+	@user.to_json
+end
 
+get '/api/repies/:id' do
+	@replies = Reply.all(:target_id => params[:id], :order => [:answer_id.desc])
+	@replies.to_json
+end
+
+get '/api/peeps/:id' do
+	@peep = Peep.get(params[:id])
+	@peep.to_json
 end

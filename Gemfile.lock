@@ -137,6 +137,7 @@ DEPENDENCIES
   data_mapper
   database_cleaner
   dm-postgres-adapter
+  json
   launchy
   rack-flash3
   rest-client
