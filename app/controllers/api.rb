@@ -3,26 +3,28 @@ get '/api/' do
 	if (session[:user_id])
 		@user_json = User.get(session[:user_id])
 	end
-	@replies = Reply.all()
-	@ids = []
-	@replies.each {|replay| @ids << replay.answer_id }
-	@peeps = Peep.all(:id.not => @ids ,:order => [:created_at.desc])
+
+	@ids = Reply.all().map{|reply| reply.answer_id }
+	@all_peeps = Peep.all(:id.not => @ids ,:order => [:created_at.desc])
+
+	@peeps = @all_peeps.map do |peep| 
+		@replies = Reply.all(:target_id => peep.id, :order =>[:answer_id.desc]).map{|reply| {:reply => reply.answer, :user =>reply.answer.user}}
+		{:peep => peep, :user => peep.user, :replies =>@replies }
+	end
 
 	@return_obj = { :user => @user_json, :peeps => @peeps}
 	@return_obj.to_json
 end
 
-get '/api/users/:id' do
-	@user = User.get(params[:id])
+post '/api/sessions/' do
+	# data = JSON.parse params
+	@data = JSON.parse(request.body.read)
+	@user = User.authenticate(@data["email"], @data["password"])
+	session[:user_id] = @user.id if(@user) 
 	@user.to_json
 end
 
-get '/api/repies/:id' do
-	@replies = Reply.all(:target_id => params[:id], :order => [:answer_id.desc])
-	@replies.to_json
-end
-
-get '/api/peeps/:id' do
-	@peep = Peep.get(params[:id])
-	@peep.to_json
+post '/api/sessions/logout' do
+	session[:user_id] = nil
+	{:message => "Good bye!"}.to_json
 end

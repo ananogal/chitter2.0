@@ -1,4 +1,7 @@
 require 'spec_helper'
+require 'json'
+require 'rest-client'
+
 require_relative 'helpers/sessions'
 require_relative 'helpers/peeps'
 
@@ -30,25 +33,6 @@ feature "When asked for the api" do
 		expect(page).to have_content('peeps":[{')
 	end
 
-	scenario "should return an user by its id" do
-		visit "/api/users/#{@user1.id}"
-		expect(page).to have_content("{\"id\":#{@user1.id}")
-	end 
-
-	scenario "should return all the replies to a peep" do
-			@parent_peep = Peep.create(:message =>"Test first peep", :created_at => DateTime.now, :user_id => @user1.id)
-			@new_peep = Peep.create(:message =>"Reply to first peep", :created_at => DateTime.now, :user_id => @user2.id)
-			@peep = Reply.create(:answer_id => @new_peep.id, :target_id => @parent_peep.id)
-			visit "/api/repies/#{@parent_peep.id}"
-			expect(page).to have_content("\"target_id\":#{@parent_peep.id}")
-	end
-
-	scenario "should return an peep by its id" do
-		@peep = Peep.create(:message =>"Test first peep", :created_at => DateTime.now, :user_id => @user1.id)
-		@new_peep = Peep.create(:message =>"Reply to first peep", :created_at => DateTime.now, :user_id => @user2.id)
-		visit "/api/peeps/#{@peep.id}"
-		expect(page).to have_content("{\"id\":#{@peep.id}")
-	end
 end
 
 

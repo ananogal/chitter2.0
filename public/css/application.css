@@ -120,10 +120,10 @@ header #user-buttons > *{
     color: #6a6c6e
 }
 
-.peep .button_reply{
+.peep .button-reply{
   float: right;
-  margin-top: -60px;
   text-align: center;
+  margin-right: 10px;
 }
 
 #replies{
@@ -134,7 +134,7 @@ header #user-buttons > *{
     background-color: #6a6c6e;
     box-shadow: 0 0 5px rgba(0,0,0,0.4);
     border-radius: 0.5em;
-    margin: 10px 20px 10px 20px;
+    margin: 10px 15px 10px 20px;
     padding: 15px 10px;
 }
 
@@ -157,7 +157,7 @@ header #user-buttons > *{
     color: #FFFFFF
 }
 
-#notice {
+/*#notice {
   text-align: center;
   margin: 5px;
   padding: 5px;
@@ -165,30 +165,40 @@ header #user-buttons > *{
   border-radius: 4px;
   box-shadow: 0 0 3px rgba(0,0,0,0.4);
   color: white;
-}
+}*/
 h1{
 	font-size: 22px;
 }
 
-form{
-	/*text-align: left;*/
-  text-align: center;
+.fake-form{
+	text-align: left;
+  background-color: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    border-radius: 0.5em;
+    margin:10px;
+    padding: 15px 10px 10px 10px;
 }
 
-form h3 {
+.fake-form h3 {
   padding-bottom: 10px;
   font-size:1em;
 }
 
-form p{
+.fake-form p{
 	margin: 10px 0;
 }
 
-form input[type="text"], form input[type="password"]{
+.fake-form input[type="text"], .fake-form input[type="password"]{
 	border:1px solid black;
 	font-size: 16px;
 	width: 400px;
 }
+
+.fake-form input[type="submit"]{
+  margin-left: 0px;
+}
+
+
 .link_button{
   font-size: 0.8em;
 }
