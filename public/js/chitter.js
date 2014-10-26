@@ -2,19 +2,15 @@ $(document).ready(function(){
 	$("#user_sign_up").hide();
 	$("#user_sign_in").hide();
 	$('#notice').hide();
-	//view = new ChitterView();
 
-	$.getJSON("/api/", function(chitterData){
-		updateUserInfo(chitterData.user);
-		updateListOfPeeps(chitterData);
-	});
-
+	loadPage();
 });
 
 function updateUserInfo(user){
 	if(jQuery.isEmptyObject(user)){
 		replaceTemplate('#template_signed_out', '#user-buttons', user);
 		$('#sign-up').on('click', function(){
+			$('#form_user_sign_up')[0].reset();
 			$("#user_sign_up").show();
 			$("#user_sign_in").hide();
 			$("#user-peeps").hide();
@@ -22,6 +18,7 @@ function updateUserInfo(user){
 
 		//button sign-in
 		$('#sign-in').on('click', function(){
+			$('#form_user_sign_in')[0].reset();
 			$("#user_sign_in").show();
 			$("#user_sign_up").hide();
 			$("#user-peeps").hide();
@@ -38,6 +35,7 @@ function updateUserInfo(user){
 function updateListOfPeeps(peeps){ 
 	appendTemplate('#template_list_peeps', "#ul-peeps", peeps);
 	updateButtonReply(peeps.user);
+	$("#user-peeps").show();
 };
 
 function updateButtonReply(currentUser){
@@ -78,10 +76,7 @@ function buttonSignOut(){
         	setTimeout(function() {
         		$('#notice').hide();
 				  }, 2000);
-        	replaceTemplate('#template_signed_out', '#user-buttons', message);
-        	$("#user_sign_up").hide();
-					$("#user_sign_in").hide();
-					$("#user-peeps").show();
+        	loadPage();
 	      }
 		});
 	});
@@ -103,10 +98,17 @@ function formSignIn(){
 					replaceTemplate('#template_signed_in', '#user-buttons', user);
 	        $("#user_sign_up").hide();
 					$("#user_sign_in").hide();
-					$("#user-peeps").show();
 					buttonSignOut();
+					loadPage();
 	      }
 		});
+	});
+}
+
+function loadPage(){
+	$.getJSON("/api/", function(chitterData){
+		updateUserInfo(chitterData.user);
+		updateListOfPeeps(chitterData);
 	});
 }
 
