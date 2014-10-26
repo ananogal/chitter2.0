@@ -4,6 +4,7 @@ $(document).ready(function(){
 	$('#notice').hide();
 
 	loadPage();
+	$("#form_user_sign_in").validate();
 });
 
 function updateUserInfo(user){
@@ -24,6 +25,7 @@ function updateUserInfo(user){
 			$("#user-peeps").hide();
 		});
 		formSignIn();
+		formSignUp();
 	}
 	else
 	{
@@ -33,7 +35,7 @@ function updateUserInfo(user){
 };
 
 function updateListOfPeeps(peeps){ 
-	appendTemplate('#template_list_peeps', "#ul-peeps", peeps);
+	replaceTemplate('#template_list_peeps', "#ul-peeps", peeps);
 	updateButtonReply(peeps.user);
 	$("#user-peeps").show();
 };
@@ -41,7 +43,7 @@ function updateListOfPeeps(peeps){
 function updateButtonReply(currentUser){
 	if(!jQuery.isEmptyObject(currentUser))
 	{
-		appendTemplate('#template_button-reply', '.button-reply', currentUser);
+		replaceTemplate('#template_button-reply', '.button-reply', currentUser);
 		$('.button-reply').show();
 		$('.button-reply a').on("click", function(){
 			//make something here :)
@@ -71,12 +73,13 @@ function buttonSignOut(){
 	      data : JSON.stringify({}),
 	      accepts: "application/json",
 	      success: function(message) {
+	      	$("#notice").empty();
       		appendTemplate("#template_notice", '#notice', message);
         	$('#notice').show();
-        	setTimeout(function() {
-        		$('#notice').hide();
-				  }, 2000);
-        	loadPage();
+	        	setTimeout(function() {
+	        		loadPage();
+	        		$('#notice').hide();
+					  }, 2000);
 	      }
 		});
 	});
@@ -85,24 +88,60 @@ function buttonSignOut(){
 function formSignIn(){
 	$("#form_user_sign_in" ).submit(function( event ) {
 		event.preventDefault();
-		var $form = $( this ), email = $form.find( "input[name='email']" ).val(), 
-								url = $form.attr( "action" ), password = $form.find( "input[name='password']").val();
-		$.ajax({
-	      url: url,
-	      dataType: 'json',
-	      contentType: 'application/json',
-	      type: 'POST',
-	      data : JSON.stringify({ "email":  email, "password": password }),
-	      accepts: "application/json",
-	      success: function(user) {
-					replaceTemplate('#template_signed_in', '#user-buttons', user);
-	        $("#user_sign_up").hide();
-					$("#user_sign_in").hide();
-					buttonSignOut();
-					loadPage();
-	      }
-		});
+		var $form = $( this ), 
+				email = $form.find( "input[name='email']" ).val(), 
+				password = $form.find( "input[name='password']").val(),
+				url = $form.attr( "action" );
+		var data = JSON.stringify({ "email":  email, "password": password });
+		sendUserAjaxRequest(url, data);
 	});
+}
+
+function formSignUp(){
+	$("#form_user_sign_up").submit(function( event ) {
+			event.preventDefault();
+			var $form = $( this ), 
+					email = $form.find( "input[name='email']" ).val(), 
+					username = $form.find( "input[name='username']" ).val(),
+					name = $form.find( "input[name='name']" ).val(),
+					password = $form.find( "input[name='password']").val(),
+					password_confirmation = $form.find( "input[name='password_confirmation']").val(),
+					url = $form.attr( "action" );
+			var data = JSON.stringify({ "email":  email, 
+	      												"username" : username,
+	      												"name" : name,
+	      												"password": password,
+	      												"password_confirmation" : password_confirmation });
+			sendUserAjaxRequest(url, data);
+		});
+}
+
+function sendUserAjaxRequest(url, data){
+	$.ajax({
+    url: url,
+    dataType: 'json',
+    contentType: 'application/json',
+    type: 'POST',
+    data : data,
+    accepts: "application/json",
+    success: function(user) {
+    	if(!jQuery.isEmptyObject(user)){
+				replaceTemplate('#template_signed_in', '#user-buttons', user);
+	      $("#user_sign_up").hide();
+				$("#user_sign_in").hide();
+				buttonSignOut();
+				loadPage();
+			}
+			else {
+					var message = {"message": "The email or password is incorrect."};
+					$('#errors').empty();
+					appendTemplate('#template_error', '#errors', message);
+					setTimeout(function() {
+	        		$('#errors').hide();
+					  }, 2000);
+			}
+    }
+	});	
 }
 
 function loadPage(){

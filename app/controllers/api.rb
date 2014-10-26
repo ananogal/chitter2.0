@@ -17,7 +17,6 @@ get '/api/' do
 end
 
 post '/api/sessions/' do
-	# data = JSON.parse params
 	@data = JSON.parse(request.body.read)
 	@user = User.authenticate(@data["email"], @data["password"])
 	session[:user_id] = @user.id if(@user) 
@@ -27,4 +26,16 @@ end
 post '/api/sessions/logout' do
 	session[:user_id] = nil
 	{:message => "Good bye!"}.to_json
+end
+
+post '/api/users/new/' do
+	@data = JSON.parse(request.body.read)
+	@user = User.create(:email => @data["email"], 
+						:username => @data["username"],
+						:name => @data["name"],
+						:password =>@data["password"],
+						:password_confirmation =>@data["password_confirmation"])
+
+	session[:user_id] = @user.id if(@user) 
+	@user.to_json
 end

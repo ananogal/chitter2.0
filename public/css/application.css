@@ -76,7 +76,6 @@ header #user-buttons > *{
 
 #container {
 	background-color: #FFF;
-	margin:40px;
 	box-shadow: 0 0 5px rgba(0,0,0,0.4);
   border-radius: 0.5em;
 	padding: 10px;
@@ -205,7 +204,7 @@ h1{
 
 .flash {
   text-align: center;
-  margin: 5px;
+  margin: 10px 300px;
   padding: 5px;  
   border-radius: 4px;
   box-shadow: 0 0 3px rgba(0,0,0,0.4);
@@ -213,10 +212,22 @@ h1{
 }
 
 .flash.notice {
-    background-color: rgba(67,183,120,0.75);
+  margin: 10px 300px;
+  background-color: rgba(67,183,120,0.75);
 }
 
-.flash.error {
-   background-color: rgba(222,87,67,1); 
+.flash_error {
+  text-align: center;
+  margin: 10px 300px;
+  padding: 5px;  
+  border-radius: 4px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.4);
+  color: white;
+  background-color: rgba(222,87,67,1); 
 }
+.error{
+  color: rgba(222,87,67,1); 
+}
+
+
 

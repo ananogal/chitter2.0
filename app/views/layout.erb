@@ -14,16 +14,10 @@
     </section>
 </header>
   <section id="notice"></section>
-	<% if flash[:errors] && !flash[:errors].empty? %> 
-	  <ul id="errors">
-	    <% flash[:errors].each do |error| %>
-	      <li class="flash error"><%= error %></li>
-	    <% end %>
-	  </ul>
-	<% end %>
+  <section id="errors"></section>
 	<main id="container">
 	<section id="user_sign_up" class="fake-form">
-		<form action="/users" method="post"> 
+		<form action="/api/users/new/" method="post" id="form_user_sign_up"> 
 			<p><input type="text" name="email" placeholder="Email"/></p>
 			<p><input type="text" name="username" placeholder="Username" /></p>
 			<p><input type="text" name="name" placeholder="Name"/></p>
@@ -34,15 +28,14 @@
 	</section>
 	<section id="user_sign_in" class="fake-form">
 		<form method="post" action="/api/sessions/" id="form_user_sign_in">
-		  <p><input type="text" name="email" placeholder="Email"></p>
-		  <p><input type="password" name="password" placeholder="Password"></p>
+		  <p><input type="text" name="email" placeholder="Email" required></p>
+		  <p><input type="password" name="password" placeholder="Password" required></p>
 		  <p><input type="submit" value="Sign in" class="button"> <a href="/users/forgotten" class="link_button">Forgot password?</a></p>
 		</form>
 	</section>
 	<section  id="user-peeps">
 			<h3>What's going on...</h3>
 				<ul id="ul-peeps" >
-
 				</ul>
 		</section>
   </main>
@@ -62,46 +55,54 @@
     </section>
 	</template>
 	<template id="template_list_peeps">
-		{{#each peeps}}
-			<li class="peep">
-				{{#with peep}}
-					<p class="message">{{message}}</p>
-				{{/with}}
-				<section class="button-reply"></section>
-				{{#with user}}
-					<p class="author">created by:{{name}} ( {{username}} )</p>
-				{{/with}}	
-				{{#with peep}}
-					<p class="date">at:{{#formatDate created_at}} {{/formatDate}}</p>
-				{{/with}}
-					<section id="peep_replies">
-						<ul id="replies{{id}}">
-						{{#each replies}}
-							<li class="reply">
-								{{#with reply}}
-									<p class="message">{{{message }}}</p>
-								{{/with}}
-								{{#with user}}
-									<p class="author">created by:{{{name}}} ( {{{username}}} )</p>
-								{{/with}}
-								{{#with reply}}
-									<p class="date">at:{{#formatDate created_at}} {{/formatDate}}</p>
-								{{/with}}
-							</li>	
-						{{/each}}
-						</ul>
-					</section>
-			</li>
-		{{/each}}
+		<ul id="ul-peeps" >
+			{{#each peeps}}
+				<li class="peep">
+					{{#with peep}}
+						<p class="message">{{message}}</p>
+					{{/with}}
+					<section class="button-reply"></section>
+					{{#with user}}
+						<p class="author">created by:{{name}} ( {{username}} )</p>
+					{{/with}}	
+					{{#with peep}}
+						<p class="date">at:{{#formatDate created_at}} {{/formatDate}}</p>
+					{{/with}}
+						<section id="peep_replies">
+							<ul id="replies{{id}}">
+							{{#each replies}}
+								<li class="reply">
+									{{#with reply}}
+										<p class="message">{{{message }}}</p>
+									{{/with}}
+									{{#with user}}
+										<p class="author">created by:{{{name}}} ( {{{username}}} )</p>
+									{{/with}}
+									{{#with reply}}
+										<p class="date">at:{{#formatDate created_at}} {{/formatDate}}</p>
+									{{/with}}
+								</li>	
+							{{/each}}
+							</ul>
+						</section>
+				</li>
+			{{/each}}
+		</ul>
 	</template>
 	<template id="template_button-reply">
-		<a href="#" class="button">Reply</a>
+		<section class="button-reply">
+			<a href="#" class="button">Reply</a>
+		</section>
 	</template>
 	<template id="template_notice">
 		<p class="flash notice">{{message}}</p>
 	</template>
+	<template id="template_error">
+	  <p class="flash_error">{{message}}</p>
+	</template>
 	<script src="/js/jquery-2.1.1.min.js"></script>
 	<script src="/js/moment.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
 	<script src="/js/handlebars.js"></script>
 	<script src="/js/chitter.js"></script>
 </body>
