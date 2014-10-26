@@ -2,18 +2,16 @@ $(document).ready(function(){
 	$("#user_sign_up").hide();
 	$("#user_sign_in").hide();
 	$('#notice').hide();
-	view = new ChitterView();
+	//view = new ChitterView();
 
 	$.getJSON("/api/", function(chitterData){
-		view.updateUserInfo(chitterData.user);
-		view.updateListOfPeeps(chitterData);
+		updateUserInfo(chitterData.user);
+		updateListOfPeeps(chitterData);
 	});
 
 });
 
-function ChitterView(){}
-
-ChitterView.prototype.updateUserInfo = function(user){
+function updateUserInfo(user){
 	if(jQuery.isEmptyObject(user)){
 		replaceTemplate('#template_signed_out', '#user-buttons', user);
 		$('#sign-up').on('click', function(){
@@ -28,42 +26,21 @@ ChitterView.prototype.updateUserInfo = function(user){
 			$("#user_sign_up").hide();
 			$("#user-peeps").hide();
 		});
-
-		$("#form_user_sign_in" ).submit(function( event ) {
-			event.preventDefault();
-			var $form = $( this ), email = $form.find( "input[name='email']" ).val(), 
-									url = $form.attr( "action" ), password = $form.find( "input[name='password']").val();
-			$.ajax({
-		      url: url,
-		      dataType: 'json',
-		      contentType: 'application/json',
-		      type: 'POST',
-		      data : JSON.stringify({ "email":  email, "password": password }),
-		      accepts: "application/json",
-		      success: function(user) {
-						replaceTemplate('#template_signed_in', '#user-buttons', user);
-		        $("#user_sign_up").hide();
-						$("#user_sign_in").hide();
-						$("#user-peeps").show();
-						buttonSignOut();
-		      }
-			});
-		});
+		formSignIn();
 	}
 	else
 	{
 		replaceTemplate('#template_signed_in', '#user-buttons', user);
 		buttonSignOut();
 	}
-	
 };
 
-ChitterView.prototype.updateListOfPeeps = function(peeps) { 
+function updateListOfPeeps(peeps){ 
 	appendTemplate('#template_list_peeps', "#ul-peeps", peeps);
-	this.updateButtonReply(peeps.user);
+	updateButtonReply(peeps.user);
 };
 
-ChitterView.prototype.updateButtonReply = function(currentUser){
+function updateButtonReply(currentUser){
 	if(!jQuery.isEmptyObject(currentUser))
 	{
 		appendTemplate('#template_button-reply', '.button-reply', currentUser);
@@ -110,6 +87,28 @@ function buttonSignOut(){
 	});
 }
 
+function formSignIn(){
+	$("#form_user_sign_in" ).submit(function( event ) {
+		event.preventDefault();
+		var $form = $( this ), email = $form.find( "input[name='email']" ).val(), 
+								url = $form.attr( "action" ), password = $form.find( "input[name='password']").val();
+		$.ajax({
+	      url: url,
+	      dataType: 'json',
+	      contentType: 'application/json',
+	      type: 'POST',
+	      data : JSON.stringify({ "email":  email, "password": password }),
+	      accepts: "application/json",
+	      success: function(user) {
+					replaceTemplate('#template_signed_in', '#user-buttons', user);
+	        $("#user_sign_up").hide();
+					$("#user_sign_in").hide();
+					$("#user-peeps").show();
+					buttonSignOut();
+	      }
+		});
+	});
+}
 
 Handlebars.registerHelper("formatDate", function(datetime) {
 	if (moment) {
