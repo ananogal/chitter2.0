@@ -2,8 +2,10 @@ $(document).ready(function(){
 	$("#user_sign_up").hide();
 	$("#user_sign_in").hide();
 	$('#notice').hide();
+	$('#user_new_peep').hide();
 
 	loadPage();
+	
 	$("#form_user_sign_in").validate();
 });
 
@@ -15,6 +17,7 @@ function updateUserInfo(user){
 			$("#user_sign_up").show();
 			$("#user_sign_in").hide();
 			$("#user-peeps").hide();
+			$('#user_new_peep').hide();
 		});
 
 		//button sign-in
@@ -23,7 +26,9 @@ function updateUserInfo(user){
 			$("#user_sign_in").show();
 			$("#user_sign_up").hide();
 			$("#user-peeps").hide();
+			$('#user_new_peep').hide();
 		});
+
 		formSignIn();
 		formSignUp();
 	}
@@ -31,6 +36,13 @@ function updateUserInfo(user){
 	{
 		replaceTemplate('#template_signed_in', '#user-buttons', user);
 		buttonSignOut();
+		$('#new_peep').on('click', function(){
+			$('#form_new_peep')[0].reset();
+			$("#user_sign_in").hide();
+			$("#user_sign_up").hide();
+			$("#user-peeps").hide();
+			$('#user_new_peep').show();
+		});
 	}
 };
 
@@ -77,8 +89,8 @@ function buttonSignOut(){
       		appendTemplate("#template_notice", '#notice', message);
         	$('#notice').show();
 	        	setTimeout(function() {
-	        		loadPage();
 	        		$('#notice').hide();
+	        		loadPage();
 					  }, 2000);
 	      }
 		});
@@ -86,7 +98,7 @@ function buttonSignOut(){
 }
 
 function formSignIn(){
-	$("#form_user_sign_in" ).submit(function( event ) {
+	$("#form_user_sign_in").submit(function( event ) {
 		event.preventDefault();
 		var $form = $( this ), 
 				email = $form.find( "input[name='email']" ).val(), 
@@ -126,6 +138,7 @@ function sendUserAjaxRequest(url, data){
     accepts: "application/json",
     success: function(user) {
     	if(!jQuery.isEmptyObject(user)){
+    		console.log(user);
 				replaceTemplate('#template_signed_in', '#user-buttons', user);
 	      $("#user_sign_up").hide();
 				$("#user_sign_in").hide();

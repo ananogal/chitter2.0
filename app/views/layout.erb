@@ -18,9 +18,9 @@
 	<main id="container">
 	<section id="user_sign_up" class="fake-form">
 		<form action="/api/users/new/" method="post" id="form_user_sign_up"> 
-			<p><input type="text" name="email" placeholder="Email"/></p>
-			<p><input type="text" name="username" placeholder="Username" /></p>
-			<p><input type="text" name="name" placeholder="Name"/></p>
+			<p><input type="email" name="email" placeholder="Email" required/></p>
+			<p><input type="text" name="username" placeholder="Username" required/></p>
+			<p><input type="text" name="name" placeholder="Name" required/></p>
 			<p><input type="password" name="password"placeholder="password" /></p>
 			<p><input type="password" name="password_confirmation" placeholder="password again!"/></p>
 			<p><input type="submit" value="Sign up" class="button"/></p>
@@ -28,9 +28,16 @@
 	</section>
 	<section id="user_sign_in" class="fake-form">
 		<form method="post" action="/api/sessions/" id="form_user_sign_in">
-		  <p><input type="text" name="email" placeholder="Email" required></p>
-		  <p><input type="password" name="password" placeholder="Password" required></p>
+		  <p><input type="text" id="sign_in_email" name="email" placeholder="Email" required></p>
+		  <p><input type="password" name="password" id="sign_in_password" placeholder="Password" required></p>
 		  <p><input type="submit" value="Sign in" class="button"> <a href="/users/forgotten" class="link_button">Forgot password?</a></p>
+		</form>
+	</section>
+	<section id="user_new_peep" class="fake-form">
+		<form action="/peep/new" method="post" id="form_new_peep">
+			<h3>Tell us what's on your mind! </h3>
+			<textarea rows="4" cols="50" name="message"></textarea>
+			<p><input type="submit" value="Peep" class="button"/></p>
 		</form>
 	</section>
 	<section  id="user-peeps">
@@ -100,10 +107,11 @@
 	<template id="template_error">
 	  <p class="flash_error">{{message}}</p>
 	</template>
-	<script src="/js/jquery-2.1.1.min.js"></script>
-	<script src="/js/moment.min.js"></script>
-	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-	<script src="/js/handlebars.js"></script>
-	<script src="/js/chitter.js"></script>
+	<script type="text/javascript" src="/js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="/js/moment.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="js/additional-methods.min.js"></script>
+	<script type="text/javascript" src="/js/handlebars.js"></script>
+	<script type="text/javascript" src="/js/chitter.js"></script>
 </body>
 </html>
