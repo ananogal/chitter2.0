@@ -39,3 +39,9 @@ post '/api/users/new/' do
 	session[:user_id] = @user.id if(@user) 
 	@user.to_json
 end
+
+post '/api/peep/new' do
+	@data = JSON.parse(request.body.read)
+	@peep = Peep.create(:message =>@data["message"], :created_at => DateTime.now, :user_id => session[:user_id])
+	@data.to_json
+end

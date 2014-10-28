@@ -20,24 +20,24 @@ class User
 			    }
 	property :password_digest, Text
 	property :password_token, Text
-  	property :password_token_timestamp, Time
+  property :password_token_timestamp, Time
 
-  	has n, :peeps
+	has n, :peeps
 
-  	validates_confirmation_of :password
-  	validates_presence_of :password, :message => "The password is mandatory"
+	validates_confirmation_of :password
+	validates_presence_of :password, :message => "The password is mandatory"
 
-  	def password=(password)
-		@password = password
-    	self.password_digest = BCrypt::Password.create(password)
-  	end
-
-  	def self.authenticate(email, password)
-		user = first(:email => email)
-		if user && BCrypt::Password.new(user.password_digest) == password
-			user
-		else
-			nil
-		end
+	def password=(password)
+	@password = password
+  	self.password_digest = BCrypt::Password.create(password)
 	end
+
+	def self.authenticate(email, password)
+	user = first(:email => email)
+	if user && BCrypt::Password.new(user.password_digest) == password
+		user
+	else
+		nil
+	end
+end
 end

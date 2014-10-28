@@ -7,6 +7,7 @@ $(document).ready(function(){
 	loadPage();
 	
 	$("#form_user_sign_in").validate();
+	formNewPeep();
 });
 
 function updateUserInfo(user){
@@ -43,6 +44,8 @@ function updateUserInfo(user){
 			$("#user-peeps").hide();
 			$('#user_new_peep').show();
 		});
+
+		//formNewPeep();
 	}
 };
 
@@ -62,18 +65,6 @@ function updateButtonReply(currentUser){
 		});
 	}
 };
-
-function appendTemplate(templateName, element, dataSource){
-	var source = $(templateName).html();
-	var template = Handlebars.compile(source);
-	$(element).append(template(dataSource));
-}
-
-function replaceTemplate(templateName, element, dataSource){
-	var source = $(templateName).html();
-	var template = Handlebars.compile(source);
-	$(element).replaceWith(template(dataSource));
-}
 
 function buttonSignOut(){
 	$('#sign_out').on('click', function() {
@@ -128,6 +119,31 @@ function formSignUp(){
 		});
 }
 
+function formNewPeep(){
+	$("#form_new_peep").submit(function(event) {
+		event.preventDefault();
+
+		var $form = $(this), 
+				peep_text = $form.find("textarea[name='message']").val(),
+				url = $form.attr( "action" );
+
+		var data = JSON.stringify({"message" : peep_text});
+		
+		$.ajax({
+	    url: url,
+	    dataType: 'json',
+	    contentType: 'application/json',
+	    type: 'POST',
+	    data : data,
+	    accepts: "application/json",
+	    success:function(){
+	    	console.log("success")
+	    	loadPage();
+	    }
+    });	
+	});
+}
+
 function sendUserAjaxRequest(url, data){
 	$.ajax({
     url: url,
@@ -155,6 +171,18 @@ function sendUserAjaxRequest(url, data){
 			}
     }
 	});	
+}
+
+function appendTemplate(templateName, element, dataSource){
+	var source = $(templateName).html();
+	var template = Handlebars.compile(source);
+	$(element).append(template(dataSource));
+}
+
+function replaceTemplate(templateName, element, dataSource){
+	var source = $(templateName).html();
+	var template = Handlebars.compile(source);
+	$(element).replaceWith(template(dataSource));
 }
 
 function loadPage(){
